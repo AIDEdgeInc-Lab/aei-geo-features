@@ -1,7 +1,7 @@
 # Changelog
 
-All notable changes to this project are recorded here. This project's
-source is public on GitHub; no version has been published to PyPI yet.
+All notable changes to this project are recorded here. This project is
+published on PyPI: https://pypi.org/project/aei-geo-features/
 
 ## [0.1.0] - 2026-07-12
 
@@ -59,7 +59,7 @@ project's code imports or depends on any private/internal package.
 | `numpy` | `>=1.23,<3` | `np.clip`, `np.nan`, vectorized array ops used by `normalize_coordinates`/`add_distance_to_landmark` | BSD-3-Clause | Yes (transitive via pandas in practice, declared explicitly for clarity) | None | None needed; already minimal |
 | `pytest` | `>=7.4,<9` | Test runner | MIT | Dev-only | None | None needed; de facto standard |
 | `build` | `>=1.0,<2` | PEP 517 build frontend, used in CI to build wheel/sdist | MIT | Dev-only | None | None needed |
-| `twine` | `>=5.0,<7` | Package-metadata/README validation (`twine check`) in CI; **publishing is not wired to any workflow** | Apache-2.0 | Dev-only | None | None needed |
+| `twine` | `>=5.0,<7` | Package-metadata/README validation (`twine check`) in CI, run as part of the `build` job in `.github/workflows/publish.yml` before either publish job runs | Apache-2.0 | Dev-only | None | None needed |
 
 No dependency copies third-party source code into this project. No
 dependency was flagged with unclear or incompatible licensing. `pandas`
