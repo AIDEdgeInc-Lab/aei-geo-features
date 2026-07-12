@@ -26,6 +26,35 @@ It contains only generic geospatial math and ships with no data beyond
 three widely-known public landmarks used as illustrative examples - no
 telecom, network, or detection-specific logic of any kind.
 
+## Who this is for
+
+`aei-geo-features` is intended for developers, data scientists, analysts,
+and researchers working with tabular data that includes latitude and
+longitude.
+
+It is useful for:
+
+- Building lightweight geospatial features for machine-learning pipelines
+- Calculating point-to-point or point-to-landmark distance
+- Validating and normalizing coordinate columns in pandas DataFrames
+- Measuring movement between sequential observations
+- Preparing GPS, IoT, logistics, infrastructure, mobility, or asset-location data
+- Adding basic geospatial context without introducing a full GIS stack
+
+This library is especially suitable when simple, deterministic geospatial
+utilities are needed, but routing, geocoding, polygon operations, CRS
+transformation, or spatial databases are out of scope.
+
+## Example use cases
+
+Typical use cases include:
+
+- Distance from a customer, device, or asset to a reference location
+- Movement or jitter between sequential GPS observations
+- Coordinate validation before analytics or model training
+- Feature engineering for logistics, IoT, mobility, infrastructure, and location-based datasets
+- Lightweight preprocessing where GeoPandas or other GIS-heavy dependencies are unnecessary
+
 ## Install
 
 ```bash
