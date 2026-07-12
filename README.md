@@ -1,14 +1,15 @@
 # aei-geo-features
 
+[![PyPI version](https://img.shields.io/pypi/v/aei-geo-features.svg)](https://pypi.org/project/aei-geo-features/)
+
 Small, dependency-light geospatial feature primitives for tabular data:
 great-circle distance, distance-to-landmark, location-jitter (movement
 between successive points), coordinate normalization, and coordinate
 validation. Built on pandas/numpy only - no geopandas, no shapely, no
 Dask, no network calls.
 
-**Status: public source, not yet published to PyPI.** This repository is
-public on GitHub under Apache License 2.0. It has not yet been published
-to PyPI or TestPyPI - see `docs/PUBLISHING.md`.
+**Status: published on PyPI.** This repository is public on GitHub under
+Apache License 2.0. See [the production PyPI project page](https://pypi.org/project/aei-geo-features/).
 
 ## Why this exists
 
@@ -25,7 +26,7 @@ It contains only generic geospatial math and ships with no data beyond
 three widely-known public landmarks used as illustrative examples - no
 telecom, network, or detection-specific logic of any kind.
 
-## Install (once published)
+## Install
 
 ```bash
 pip install aei-geo-features
