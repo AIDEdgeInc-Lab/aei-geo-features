@@ -1,21 +1,27 @@
 name: Publish
 
 # Intentionally narrow triggers: publishing to PyPI must never happen on an
-# ordinary push. Production publication only fires when a maintainer
-# publishes a GitHub Release; TestPyPI publication is manual-only via
-# workflow_dispatch, so a TestPyPI upload always requires a deliberate
-# action, never happens automatically.
+# ordinary push or pull request - neither is a trigger here at all.
+# Production publication normally fires when a maintainer publishes a
+# GitHub Release. It can also be run manually via workflow_dispatch with
+# target=pypi, for the case where GitHub does not re-fire the release/
+# published event for a release republished against an already-existing
+# tag (a documented GitHub Actions limitation, not a bug in this
+# workflow) - see https://github.com/orgs/community/discussions/54574.
+# A manual run defaults to testpypi so a production publish is always an
+# explicit, deliberate choice, never the accidental default.
 on:
   release:
     types: [published]
   workflow_dispatch:
     inputs:
       target:
-        description: "Index to publish to (manual runs only ever target TestPyPI)"
+        description: "Index to publish to - defaults to testpypi; pypi must be chosen explicitly"
         required: true
         type: choice
         options:
           - testpypi
+          - pypi
         default: testpypi
 
 permissions:
@@ -72,7 +78,9 @@ jobs:
 
   publish-pypi:
     name: Publish to PyPI
-    if: github.event_name == 'release' && github.event.action == 'published'
+    if: |
+      github.event_name == 'release' ||
+      (github.event_name == 'workflow_dispatch' && inputs.target == 'pypi')
     needs: build
     runs-on: ubuntu-latest
     environment:
