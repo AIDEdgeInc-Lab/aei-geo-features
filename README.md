@@ -2,7 +2,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/aei-geo-features.svg)](https://pypi.org/project/aei-geo-features/)
 [![Python versions](https://img.shields.io/pypi/pyversions/aei-geo-features.svg)](https://pypi.org/project/aei-geo-features/)
-[![License](https://img.shields.io/pypi/l/aei-geo-features.svg)](LICENSE)
+[![License](https://img.shields.io/pypi/l/aei-geo-features.svg)](https://github.com/AIDEdgeInc-Lab/aei-geo-features/blob/main/LICENSE)
 [![CI](https://github.com/AIDEdgeInc-Lab/aei-geo-features/actions/workflows/ci.yml/badge.svg)](https://github.com/AIDEdgeInc-Lab/aei-geo-features/actions/workflows/ci.yml)
 
 Small, dependency-light geospatial feature primitives for tabular data:
@@ -73,7 +73,8 @@ from aei_geo_features import haversine_distance, add_distance_to_landmark
 # Single-pair distance
 toronto = (43.6426, -79.3871)
 paris = (48.8584, 2.2945)
-print(haversine_distance(*toronto, *paris))  # 5997.878983178893 (km)
+print(round(haversine_distance(*toronto, *paris), 2))
+# 5997.88
 
 # DataFrame feature helper
 df = pd.DataFrame({"latitude": [43.64], "longitude": [-79.38]})
