@@ -3,6 +3,23 @@
 All notable changes to this project are recorded here. This project is
 published on PyPI: https://pypi.org/project/aei-geo-features/
 
+## [0.1.4] - 2026-07-12
+
+Documentation and positioning release. No functional code, public API, or
+dependency changes.
+
+### Changed
+
+- Added "Who this is for" and "Example use cases" sections to the README,
+  giving audience guidance and practical use cases for a new visitor.
+- Added Python-versions, license, and CI status badges alongside the
+  existing PyPI version badge.
+- Added expected-output comments to the Quick Start example so the
+  example's return values are visible without running it.
+- Replaced remaining "release candidate" wording (a holdover from before
+  this project was ever published) with plain "package"/"library"
+  language in the README and this changelog.
+
 ## [0.1.0] - 2026-07-12
 
 ### Added
@@ -30,13 +47,13 @@ naming, and internal exception-hierarchy dependencies were removed or
 reimplemented standalone during that generalization - none of this
 project's code imports or depends on any private/internal package.
 
-### Deliberately excluded from this release candidate
+### Deliberately excluded from this package
 
 - Polygon region assignment, coordinate-reference-system (CRS)
   transformation, spatial indexing, and GeoJSON export. These exist in the
   internal source as a separate, heavier engine (optional
   geopandas/shapely/pyproj/geopy/Dask dependencies) and were evaluated but
-  excluded here to keep this release candidate's dependency footprint and
+  excluded here to keep this package's dependency footprint and
   API surface minimal. May be reconsidered as a future major version (e.g.
   an `aei-geo-features[batch]` extra) if there is real external demand -
   not built speculatively.

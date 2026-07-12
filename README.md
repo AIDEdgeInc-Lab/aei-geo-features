@@ -1,6 +1,9 @@
 # aei-geo-features
 
 [![PyPI version](https://img.shields.io/pypi/v/aei-geo-features.svg)](https://pypi.org/project/aei-geo-features/)
+[![Python versions](https://img.shields.io/pypi/pyversions/aei-geo-features.svg)](https://pypi.org/project/aei-geo-features/)
+[![License](https://img.shields.io/pypi/l/aei-geo-features.svg)](LICENSE)
+[![CI](https://github.com/AIDEdgeInc-Lab/aei-geo-features/actions/workflows/ci.yml/badge.svg)](https://github.com/AIDEdgeInc-Lab/aei-geo-features/actions/workflows/ci.yml)
 
 Small, dependency-light geospatial feature primitives for tabular data:
 great-circle distance, distance-to-landmark, location-jitter (movement
@@ -70,11 +73,14 @@ from aei_geo_features import haversine_distance, add_distance_to_landmark
 # Single-pair distance
 toronto = (43.6426, -79.3871)
 paris = (48.8584, 2.2945)
-print(haversine_distance(*toronto, *paris))  # km
+print(haversine_distance(*toronto, *paris))  # 5997.878983178893 (km)
 
 # DataFrame feature helper
 df = pd.DataFrame({"latitude": [43.64], "longitude": [-79.38]})
 df = add_distance_to_landmark(df, landmark="CN_TOWER")
+print(df)
+#    latitude  longitude  dist_to_cn_tower_km
+# 0     43.64     -79.38             0.640313
 ```
 
 See `examples/basic_usage.py` for a complete, runnable example.
@@ -95,7 +101,7 @@ See `examples/basic_usage.py` for a complete, runnable example.
 This is deliberately a narrow API. It does not include polygon region
 assignment, CRS transformation, spatial indexing, or GeoJSON export - those
 are heavier, geopandas/shapely/pyproj-dependent capabilities that were
-evaluated and intentionally excluded from this release candidate (see
+evaluated and intentionally excluded from this package (see
 `CHANGELOG.md` and the project's internal audit notes) as out of scope for
 a small, narrowly-useful public library. They may be reconsidered for a
 future major version if there is real external demand.
