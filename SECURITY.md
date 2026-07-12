@@ -2,9 +2,9 @@
 
 ## Supported versions
 
-This project's source is public on GitHub; it has not yet been published
-to PyPI or TestPyPI. Only the latest commit on `main` and the latest
-tagged release are supported.
+This project is published on PyPI (https://pypi.org/project/aei-geo-features/).
+Only the latest published version and the latest commit on `main` are
+supported.
 
 | Version | Supported |
 |---|---|
@@ -16,12 +16,11 @@ tagged release are supported.
 **Please do not open a public GitHub issue for a suspected security
 vulnerability.**
 
-Once this repository is public, report vulnerabilities privately using
-GitHub's private vulnerability reporting (Security tab -> "Report a
-vulnerability") on the repository, which opens a private advisory visible
-only to maintainers. If that channel is unavailable, contact the
-maintainers through a private channel and avoid including exploit details
-in any public forum.
+Report vulnerabilities privately using GitHub's private vulnerability
+reporting (Security tab -> "Report a vulnerability") on the repository,
+which opens a private advisory visible only to maintainers. If that
+channel is unavailable, contact the maintainers through a private channel
+and avoid including exploit details in any public forum.
 
 Please include:
 - A description of the vulnerability and its potential impact

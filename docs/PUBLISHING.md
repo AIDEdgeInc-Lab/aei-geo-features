@@ -1,14 +1,27 @@
-# Publishing preparation (not active)
+# Publishing process
 
-**There is no publishing workflow in this repository.** This document only
-records what a future, explicitly-approved publish workflow would look
-like, using PyPI's Trusted Publishing (OIDC) mechanism, so that no PyPI
-API token ever needs to be created, stored, or embedded in this project's
-CI configuration.
+**This repository publishes to PyPI using `.github/workflows/publish.yml`.**
+It uses PyPI's Trusted Publishing (OIDC) mechanism exclusively - no PyPI
+API token is created, stored, or embedded anywhere in this project's CI
+configuration.
 
-Nothing in this document should be turned into an active workflow file
-without a separate, explicit approval step - this file is documentation
-only.
+## How a release is published
+
+- **Normal path**: a maintainer publishes a GitHub Release. This fires
+  the workflow's `release: published` trigger, which builds the wheel/
+  sdist and publishes them to production PyPI (`environment: pypi`).
+- **Manual path**: the workflow can also be run manually via
+  `workflow_dispatch` with a `target` input of `testpypi` (default) or
+  `pypi`. This exists because GitHub does not reliably re-fire the
+  `release: published` trigger when a release is republished against an
+  already-existing tag - see
+  https://github.com/orgs/community/discussions/54574. A manual run
+  always requires `target` to be chosen explicitly; `pypi` is never the
+  default.
+
+Both paths run through the same `build` job first, and both publish
+jobs are mutually exclusive - only one of `publish-testpypi` /
+`publish-pypi` ever runs for a given trigger.
 
 ## Why Trusted Publishing instead of a token
 
@@ -18,58 +31,33 @@ short-lived upload credential directly from PyPI via OpenID Connect (OIDC)
 at publish time. There is no long-lived `PYPI_API_TOKEN` secret to create,
 rotate, store in GitHub Secrets, or accidentally leak in a log.
 
-## Prerequisites before this could ever be turned on
+## Trusted Publisher registration
 
-1. The public GitHub repository must actually exist (it does not yet).
-2. A PyPI project named `aei-geo-features` must exist or be claimable, and
-   an owner/maintainer account must register it as a Trusted Publisher for
-   the exact GitHub repo + workflow filename + (optionally) environment
-   that will run the publish step. This is done on pypi.org, not in this
-   repository.
-3. Explicit, separate approval to actually publish - this is a distinct
-   decision from approving this release candidate's code.
+`aei-geo-features` is registered as a Trusted Publisher on both pypi.org
+and test.pypi.org, tied to this exact GitHub repository, the
+`publish.yml` workflow filename, and the `pypi`/`testpypi` environments
+respectively. That registration is done on PyPI's own site (Account
+Settings -> Publishing), not in this repository - there is nothing to
+configure here beyond the workflow file itself.
 
-## What the (currently absent) publish workflow would contain
+## What `.github/workflows/publish.yml` actually contains
 
-A separate file, e.g. `.github/workflows/publish.yml`, triggered only on
-a GitHub Release being published (not on every push to `main`):
-
-```yaml
-# NOT AN ACTIVE FILE - illustrative only. Do not add this file to
-# .github/workflows/ without explicit, separate approval.
-name: Publish to PyPI
-on:
-  release:
-    types: [published]
-permissions:
-  id-token: write   # required for OIDC trusted publishing
-jobs:
-  publish:
-    runs-on: ubuntu-latest
-    environment: pypi
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - run: pip install build
-      - run: python -m build
-      - uses: pypa/gh-action-pypi-publish@release/v1
-        # No `password`/`api-token` input - trusted publishing handles auth.
-```
-
-Key properties of that (still hypothetical) workflow:
-- Triggered only by a maintainer publishing a GitHub Release - never on
-  every commit to `main`.
-- No secret of any kind stored in this repository or its Actions
-  configuration.
-- Uses a GitHub Actions "environment" (e.g. `pypi`) so the publish step
-  can additionally be gated with required reviewers if desired.
+See the file directly for the exact, current definition. In summary: a
+`build` job (checkout, build wheel/sdist, `twine check`, upload as an
+artifact) followed by two mutually-exclusive publish jobs
+(`publish-testpypi`, `publish-pypi`), each using
+`pypa/gh-action-pypi-publish` pinned to an immutable commit SHA and each
+scoped to its own GitHub Actions environment with `id-token: write`. No
+`push` or `pull_request` trigger exists anywhere in the workflow, so an
+ordinary commit can never publish anything.
 
 ## Current state
 
-- No PyPI project has been registered.
-- No Trusted Publisher relationship has been configured on PyPI.
-- No publish workflow file exists in `.github/workflows/`.
-- `ci.yml` builds and validates the wheel/sdist on every PR and push to
-  `main` but uploads nothing anywhere.
+- The PyPI project exists: https://pypi.org/project/aei-geo-features/
+- Trusted Publisher relationships are configured on both pypi.org and
+  test.pypi.org.
+- `.github/workflows/publish.yml` is active and has been used for real
+  releases.
+- `ci.yml` separately builds and validates the wheel/sdist on every PR and
+  push to `main`, but never uploads anywhere - it is unrelated to
+  publishing.

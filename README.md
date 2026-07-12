@@ -90,9 +90,8 @@ dependency and license audit.
 ## Security
 
 See `SECURITY.md` for supported versions and how to report a vulnerability
-privately. See `docs/PUBLISHING.md` for how any future PyPI release would
-be published (Trusted Publishing / OIDC, no stored API token) - no publish
-workflow exists yet.
+privately. See `docs/PUBLISHING.md` for the release process. PyPI releases
+use Trusted Publishing with OIDC and no stored API token.
 
 ## Contributing
 
