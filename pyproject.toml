@@ -40,6 +40,7 @@ dev = [
 
 [project.urls]
 Homepage = "https://github.com/AIDEdgeInc-Lab/aei-geo-features"
+Repository = "https://github.com/AIDEdgeInc-Lab/aei-geo-features"
 Issues = "https://github.com/AIDEdgeInc-Lab/aei-geo-features/issues"
 Changelog = "https://github.com/AIDEdgeInc-Lab/aei-geo-features/blob/main/CHANGELOG.md"
 Security = "https://github.com/AIDEdgeInc-Lab/aei-geo-features/blob/main/SECURITY.md"
