@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aei-geo-features"
+version = "0.1.0"
+description = "Small, dependency-light geospatial feature primitives: distance, jitter, coordinate validation and normalization."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [
+    { name = "AID Edge Inc." }
+]
+keywords = ["geospatial", "geo", "haversine", "distance", "feature-engineering", "gis"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pandas>=1.5,<3",
+    "numpy>=1.23,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4,<9",
+    "build>=1.0,<2",
+    "twine>=5.0,<7",
+]
+
+[project.urls]
+Homepage = "https://github.com/AIDEdgeInc-Lab/aei-geo-features"
+Issues = "https://github.com/AIDEdgeInc-Lab/aei-geo-features/issues"
+Changelog = "https://github.com/AIDEdgeInc-Lab/aei-geo-features/blob/main/CHANGELOG.md"
+Security = "https://github.com/AIDEdgeInc-Lab/aei-geo-features/blob/main/SECURITY.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aei_geo_features = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
