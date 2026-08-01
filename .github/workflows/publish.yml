@@ -72,7 +72,7 @@ jobs:
 
       # Pinned to an immutable commit SHA (v1.14.0), not a floating tag,
       # since this step is what actually authenticates to PyPI via OIDC.
-      - uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
+      - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
         with:
           repository-url: https://test.pypi.org/legacy/
 
@@ -97,7 +97,7 @@ jobs:
 
       # Pinned to an immutable commit SHA (v1.14.0), not a floating tag,
       # since this step is what actually authenticates to PyPI via OIDC.
-      - uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
+      - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
 
 # No PyPI API token is used anywhere in this workflow. Both publish jobs
 # authenticate exclusively via PyPI Trusted Publishing (OIDC) - see
