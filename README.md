@@ -11,6 +11,9 @@ between successive points), coordinate normalization, and coordinate
 validation. Built on pandas/numpy only - no geopandas, no shapely, no
 Dask, no network calls.
 
+Developed by AID Edge Inc. as the engineering foundation of Velorona. [`aei-link-clearance`](https://github.com/AIDEdgeInc-Lab/aei-link-clearance)
+builds on it, and [Velorona for QGIS](https://plugins.qgis.org/plugins/velorona/) installs it alongside that library.
+
 **Status: published on PyPI.** This repository is public on GitHub under
 Apache License 2.0. See [the production PyPI project page](https://pypi.org/project/aei-geo-features/).
 
