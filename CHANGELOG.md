@@ -3,6 +3,12 @@
 All notable changes to this project are recorded here. This project is
 published on PyPI: https://pypi.org/project/aei-geo-features/
 
+## [Unreleased]
+
+No code, API or result changes.
+
+- README: the limits section is now a "Scope" section; all caveats and non-claims are kept.
+
 ## [0.1.5] - 2026-10-08
 
 ### Changed
