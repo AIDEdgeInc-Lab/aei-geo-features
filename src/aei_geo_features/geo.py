@@ -14,7 +14,7 @@ variable reads, no hidden global state.
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from functools import wraps
-from math import asin, cos, radians, sin, sqrt
+from math import asin, cos, isfinite, radians, sin, sqrt
 from typing import Optional, Tuple, Union
 
 import numpy as np
@@ -44,6 +44,16 @@ REFERENCE_LANDMARKS = {
     "EIFFEL_TOWER": (48.8584, 2.2945),
     "STATUE_OF_LIBERTY": (40.6892, -74.0445),
 }
+
+
+def _coarse(value) -> str:
+    """A coordinate as it may appear in a log line: rounded to 2 decimals (about 1 km), never at full precision.
+    A value that is not a finite number is shown by its type only."""
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return f"<{type(value).__name__}>"
+    return f"{v:.2f}" if isfinite(v) else "<non-finite>"
 
 
 def _validate_single_point(lat: float, lon: float, name: str = "Coordinate") -> None:
@@ -160,15 +170,17 @@ def add_distance_to_landmark(
 
         df = df.copy()
         if parallel:
-            def calculate_dist(lat, lon):
+            def calculate_dist(label, lat, lon):
                 try:
                     return haversine_distance(lat, lon, landmark_coords[0], landmark_coords[1], unit=unit)
                 except (InvalidCoordinateError, UnsupportedUnitError) as exc:
-                    logger.warning(f"Skipping distance calculation for ({lat}, {lon}) due to: {exc}")
+                    # Row label (the site id when the frame is indexed by site) and coarse coordinates only.
+                    logger.warning(f"Skipping distance calculation for row {label!r}: {type(exc).__name__} "
+                                   f"(lat~{_coarse(lat)}, lon~{_coarse(lon)})")
                     return np.nan
 
             with ThreadPoolExecutor() as executor:
-                df[output_col] = list(executor.map(calculate_dist, df[lat_col], df[lon_col]))
+                df[output_col] = list(executor.map(calculate_dist, df.index, df[lat_col], df[lon_col]))
         else:
             df[output_col] = df.apply(
                 lambda row: haversine_distance(row[lat_col], row[lon_col], landmark_coords[0], landmark_coords[1], unit=unit),
@@ -179,7 +191,7 @@ def add_distance_to_landmark(
     except (MissingColumnError, LandmarkNotFoundError, InvalidCoordinateError, UnsupportedUnitError, TypeError, ValueError):
         raise
     except Exception as exc:
-        logger.exception(f"Failed to add distance to landmark '{landmark}'")
+        logger.exception("Failed to add distance to landmark %r", landmark if isinstance(landmark, str) else "custom landmark")
         raise GeoFeatureError(f"Failed to add distance to landmark: {exc}") from exc
 
 
@@ -216,8 +228,9 @@ def add_location_jitter(
                 temp_df[lat_col].iloc[i - 1], temp_df[lon_col].iloc[i - 1],
                 temp_df[lat_col].iloc[i], temp_df[lon_col].iloc[i],
             ))
-        except InvalidCoordinateError as exc:
-            logger.warning(f"Skipping jitter calculation for row {i} due to invalid coordinates: {exc}")
+        except InvalidCoordinateError:
+            logger.warning(f"Skipping jitter calculation for row {temp_df.index[i]!r}: invalid coordinates "
+                           f"(lat~{_coarse(temp_df[lat_col].iloc[i])}, lon~{_coarse(temp_df[lon_col].iloc[i])})")
             distances.append(np.nan)
 
     temp_df["location_jitter"] = distances
