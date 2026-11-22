@@ -150,3 +150,30 @@ def test_validate_dataframe_raises_for_missing_columns():
 def test_validate_dataframe_raises_for_non_dataframe():
     with pytest.raises(TypeError):
         validate_dataframe("not_a_dataframe")
+
+
+# --- logs never carry full-precision coordinates -------------------------------------------------------------------------
+
+def test_distance_warning_logs_row_label_and_coarse_coordinates_only(caplog):
+    import logging
+    import numpy as np
+    df = pd.DataFrame({"latitude": [43.6532611, 91.4567891], "longitude": [-79.3832111, -79.3832111]},
+                      index=["SITE-A", "SITE-B"])
+    with caplog.at_level(logging.WARNING, logger="aei_geo_features.geo"):
+        out = add_distance_to_landmark(df, parallel=True)
+    assert np.isnan(out.loc["SITE-B"].iloc[-1])
+    assert "SITE-B" in caplog.text and "91.46" in caplog.text
+    for full in ("91.4567891", "79.3832111", "43.6532611"):
+        assert full not in caplog.text
+
+
+def test_jitter_warning_logs_coarse_coordinates_only(caplog):
+    import logging
+    import numpy as np
+    df = pd.DataFrame({"latitude": [43.6532611, 91.4567891], "longitude": [-79.3832111, -79.3832111]})
+    with caplog.at_level(logging.WARNING, logger="aei_geo_features.geo"):
+        out = add_location_jitter(df)
+    assert np.isnan(out["location_jitter"].iloc[1])
+    assert "91.46" in caplog.text
+    for full in ("91.4567891", "79.3832111", "43.6532611"):
+        assert full not in caplog.text

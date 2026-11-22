@@ -3,6 +3,13 @@
 All notable changes to this project are recorded here. This project is
 published on PyPI: https://pypi.org/project/aei-geo-features/
 
+## [Unreleased]
+
+No API or result changes.
+
+- Logging: warnings give the row label (the site id when the DataFrame is indexed by site) and coordinates rounded to 2 decimals (about 1 km), never full-precision coordinates; a custom landmark is logged as "custom landmark". Return values unchanged.
+- README: the limits section is now a "Scope" section; all caveats and non-claims are kept.
+
 ## [0.1.5] - 2026-10-08
 
 ### Changed

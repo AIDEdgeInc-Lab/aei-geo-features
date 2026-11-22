@@ -110,16 +110,17 @@ evaluated and intentionally excluded from this package (see
 a small, narrowly-useful public library. They may be reconsidered for a
 future major version if there is real external demand.
 
-## What this is not
+## Scope
 
-- Not a GIS platform. No polygon operations, no coordinate-reference-system
-  transforms, no spatial database integration.
-- Not a routing, geocoding, or reverse-geocoding library.
-- Not affiliated with the Apache Software Foundation. "Apache License 2.0"
-  refers only to the license text under which this project is distributed
-  - see `LICENSE`.
-- Not a certified or compliance-audited product. No FIPS, SOC 2, GDPR, ISO
-  27001, or similar claim is made anywhere in this project.
+- **Point features on tables.** Distances, location jitter, coordinate
+  validation and normalization for latitude/longitude columns. Polygon
+  operations, coordinate-reference-system transforms, spatial databases,
+  routing and geocoding belong to a GIS library.
+- **Licence.** "Apache License 2.0" refers only to the license text under
+  which this project is distributed (see `LICENSE`); the project is not
+  affiliated with the Apache Software Foundation.
+- **Certification.** No FIPS, SOC 2, GDPR, ISO 27001 or similar claim is
+  made anywhere in this project.
 
 ## Dependencies
 
